@@ -1,8 +1,15 @@
+//var uniqid = require('uniqid');
+
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
+const uniqid = require('uniqid');
+
+const newId = uniqid();
+//const newId = uniqid();
+//const newId = generateUniqueId();
 
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
@@ -33,7 +40,7 @@ const getNotes = () =>
     },
   });
 
-const saveNote = (note) =>
+const saveNote = (note) =>{ console.log(note);
   fetch('/api/notes', {
     method: 'POST',
     headers: {
@@ -41,6 +48,7 @@ const saveNote = (note) =>
     },
     body: JSON.stringify(note),
   });
+}
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -68,7 +76,9 @@ const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
+    id: newId(),
   };
+  console.log("newNote: " + newNote);
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
