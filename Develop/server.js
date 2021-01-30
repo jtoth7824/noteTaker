@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 8080;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use( express.static( __dirname + '/public' ));
+app.use( express.static( __dirname + '/public/assets/js'));
 
 // ROUTER
 // The below points our server to a series of "route" files.
@@ -23,6 +24,8 @@ app.use( express.static( __dirname + '/public' ));
 
 require('./routes/apiRoutes')(app);
 require('./routes/htmlRoutes')(app);
+//require('./public/assets/js/index')(app);
+
 
 // LISTENER
 // The below code effectively "starts" our server
@@ -30,3 +33,5 @@ require('./routes/htmlRoutes')(app);
 app.listen(PORT, () => {
   console.log(`App listening on PORT: ${PORT}`);
 });
+
+//module.exports = 'uniqid';

@@ -1,15 +1,8 @@
-//var uniqid = require('uniqid');
-
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
-const uniqid = require('uniqid');
-
-const newId = uniqid();
-//const newId = uniqid();
-//const newId = generateUniqueId();
 
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
@@ -40,7 +33,7 @@ const getNotes = () =>
     },
   });
 
-const saveNote = (note) =>{ console.log(note);
+const saveNote = (note) =>
   fetch('/api/notes', {
     method: 'POST',
     headers: {
@@ -48,7 +41,6 @@ const saveNote = (note) =>{ console.log(note);
     },
     body: JSON.stringify(note),
   });
-}
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -76,11 +68,13 @@ const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
-    id: newId(),
+    id: Math.floor(Math.random() * 1000) + 1
   };
-  console.log("newNote: " + newNote);
+  console.log(newNote);
   saveNote(newNote).then(() => {
+    console.log(newNote);
     getAndRenderNotes();
+    console.log("after render note");
     renderActiveNote();
   });
 };
@@ -119,6 +113,7 @@ const handleNewNoteView = (e) => {
 const handleRenderSaveBtn = () => {
   if (!noteTitle.value.trim() || !noteText.value.trim()) {
     hide(saveNoteBtn);
+    console.log("hide save button");
   } else {
     show(saveNoteBtn);
   }
@@ -127,17 +122,17 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
+  console.log("jsonNotes" + jsonNotes);
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
 
   let noteListItems = [];
-
   // Returns HTML element with or without a delete button
   const createLi = (text, delBtn = true) => {
     const liEl = document.createElement('li');
     liEl.classList.add('list-group-item');
-
+    console.log("create html");
     const spanEl = document.createElement('span');
     spanEl.innerText = text;
     spanEl.addEventListener('click', handleNoteView);
