@@ -5,18 +5,14 @@ const path = require('path');
 
 // ROUTING
 
+// export all routes
 module.exports = (app) => {
-  // => HTML GET Requests
-  // Below code handles when users "visit" a page.
-  // In each of the below cases the user is shown an HTML page of content
-console.log("in htmlRoutes");
+  // html route to GET the notes html file to display
   app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/notes.html'));
   });
-
+  // html route to GET the index html file to display
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
   });
-
-
 };

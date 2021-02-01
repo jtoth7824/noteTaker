@@ -5,7 +5,6 @@ const express = require('express');
 
 // EXPRESS CONFIGURATION
 // This sets up the basic properties for our express server
-
 // Tells node that we are creating an "express" server
 const app = express();
 
@@ -15,6 +14,7 @@ const PORT = process.env.PORT || 8080;
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+// need these to be able to locate required files in sub-directories
 app.use( express.static( __dirname + '/Develop/public' ));
 app.use( express.static( __dirname + '/Develop/public/assets/js'));
 
@@ -24,8 +24,6 @@ app.use( express.static( __dirname + '/Develop/public/assets/js'));
 
 require('./Develop/routes/apiRoutes')(app);
 require('./Develop/routes/htmlRoutes')(app);
-//require('./public/assets/js/index')(app);
-
 
 // LISTENER
 // The below code effectively "starts" our server
@@ -33,5 +31,3 @@ require('./Develop/routes/htmlRoutes')(app);
 app.listen(PORT, () => {
   console.log(`App listening on PORT: ${PORT}`);
 });
-
-//module.exports = 'uniqid';

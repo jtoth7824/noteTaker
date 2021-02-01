@@ -1,95 +1,81 @@
-// LOAD DATA
-// We are linking our routes to a series of "data" sources.
-// These data sources hold arrays of information on table-data, waitinglist, etc.
-const apiNotes = require('../db/db.json');
+// DEPENDENCIES
 const fs = require('fs');
 const path = require('path');
-//const johnNotes = require('../db/john.json');
 
-var hell = [];
+// task array
+var tasks = [];
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join("../db/", "db.json");
+// setup to get output path of file to write tasks to
+const OUTPUT_DIR = path.resolve(__dirname, "../db");
+const outputPath = path.join(OUTPUT_DIR, "db.json");
 
-// ROUTING
-var chosen;
+var readTask;
 
+// export all the routes
 module.exports = (app) => {
-    // API GET Requests
-    // Below code handles when users "visit" a page.
-    // In each of the below cases when a user visits a link
-    // (ex: localhost:PORT/api/admin... they are shown a JSON of the data in the table)
-    // ---------------------------------------------------------------------------
-
+    // api route to GET the notes from file and display on html page
     app.get('/api/notes', (req, res) => {
-
-        fs.readFile(path.join(__dirname, '../db/db.json'), "utf8", (err, jsonString) => {
+        // read notes saved from db.json file
+        fs.readFile(outputPath, "utf8", (err, jsonString) => {
+            // if error occurs reading file display the error
             if (err) {
                 console.log("Error reading file from disk:", err);
                 return;
             }
+            // read the notes and add to array
             try {
-                chosen = JSON.parse(jsonString);
-                console.log("New Chosen:", chosen);
-                if (!(chosen.length === 0)) {
-                    hell = [];
-                    for (let i = 0; i < chosen.length; i++) {
-                        hell.push(chosen[i])
+                // parse the JSON data read from file
+                readTask = JSON.parse(jsonString);
+                // if there was data read, then push each task object to the tasks array
+                if (!(readTask.length === 0)) {
+                    // first clear out existing tasks
+                    tasks = [];
+                    // loop over all task objects
+                    for (let i = 0; i < readTask.length; i++) {
+                        // push each task object read into the tasks array
+                        tasks.push(readTask[i])
                     }
-
                 }
+                // log error if one occurs
             } catch (err) {
                 console.log("Error parsing JSON string:", err);
             }
         });
-
-        console.log("7th circle of hell:  " + hell);
-
-        return res.json(hell);
-
+        // return as JSON response the tasks array
+        return res.json(tasks);
     });
 
     // API POST Requests
-    // Below code handles when a user submits a form and thus submits data to the server.
-    // In each of the below cases, when a user submits form data (a JSON object)
-    // ...the JSON is pushed to the appropriate JavaScript array
-    // (ex. User fills out a reservation request... this data is then sent to the server...
-    // Then the server saves the data to the tableData array)
-    // ---------------------------------------------------------------------------
 
+    // api route for POST to save a new note to db.json file
     app.post('/api/notes', (req, res) => {
-        console.log("inside api notes route");
+        const newTask = req.body;
 
-        console.log(req.body);
-
-        // This works because of our body parsing middleware
-        const newCharacter = req.body;
-
-        hell.push(newCharacter);
-        res.json(newCharacter);
-        // Write out the html page to a file
-        fs.writeFile(path.join(__dirname, '../db/db.json'), JSON.stringify(hell), (err) =>
+        // save the new task to the tasks array
+        tasks.push(newTask);
+        // return as JSON response the new task
+        res.json(newTask);
+        // Write out the updated tasks array to the db.json file
+        fs.writeFile(outputPath, JSON.stringify(tasks), (err) =>
             err ? console.error(err) : console.log('Success'));
     });
-
+    // api route for POST to delete a specific note from db.json file
     app.delete('/api/notes/:id', (req, res) => {
-        console.log("inside api delete route");
+        // capture the 'id' parameter of the note to delete
         const deleteId = parseInt(req.params.id);
 
-        for (let i = 0; i < hell.length; i++) {
-            console.log(hell[i].id);
-            if (deleteId === hell[i].id) {
-                console.log("i = " + i);
-                hell.splice(i, 1);
+        // loop over tasks array to find specific id
+        for (let i = 0; i < tasks.length; i++) {
+            // check if id to delete matches current task object id in array
+            if (deleteId === tasks[i].id) {
+                // delete from array the found task
+                tasks.splice(i, 1);
             }
         }
-        console.log(hell);
-        // Write out the html page to a file
-        fs.writeFile(path.join(__dirname, '../db/db.json'), JSON.stringify(hell), (err) =>
+        // Write out the updated tasks array to the db.json file
+        fs.writeFile(outputPath, JSON.stringify(tasks), (err) =>
             err ? console.error(err) : console.log('Success'));
-        res.json(hell);
+        // return as JSON response the updated task array
+        res.json(tasks);
     });
-
 };
-
-//module.exports = hell;

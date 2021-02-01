@@ -61,6 +61,8 @@ const renderActiveNote = () => {
   } else {
     noteTitle.value = '';
     noteText.value = '';
+    // remove the readonly attribute so user can successfully edit these fields again after clicking the edit icon
+    // this was missing/broken in the starter code given to us
     noteTitle.removeAttribute('readonly');
     noteText.removeAttribute('readonly');
   }
@@ -70,9 +72,9 @@ const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
-    id: Math.floor(Math.random() * 1000) + 1
+    // added unique ID via data/getTime function to successfully be able to delete a specific task
+    id: new Date().getTime()
   };
-  console.log(newNote);
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
