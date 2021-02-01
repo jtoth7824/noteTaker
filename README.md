@@ -6,8 +6,7 @@ This project demonstrates creating an Express server and adding routes to build 
 
 This application allows a user to add a note title/description and save the information out to a JSON file.  As the user notes are added, they are displayed in the left column along with a delete icon.   If a user clicks any of the existing note titles in left column, then the note is displayed in right side of screen along with its full description.   The user is also able to edit an existing note by clicking the Edit icon in top right corner of screen.
 
-
-As an adde bonus, delete functionality was added to the application.  If the user clicks the delete icon for a note, then the application deletes that specific note, writes out the shortened list of notes both to the screen and also to the JSON file.
+As an added bonus, delete functionality was added to the application.  If the user clicks the delete icon for a note, then the application deletes that specific note, writes out the shortened list of notes both to the screen and also to the JSON file.
 
 The application utilized an Express server and was deployed through Heroku.
 
