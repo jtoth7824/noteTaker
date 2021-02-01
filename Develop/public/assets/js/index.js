@@ -61,6 +61,8 @@ const renderActiveNote = () => {
   } else {
     noteTitle.value = '';
     noteText.value = '';
+    noteTitle.removeAttribute('readonly');
+    noteText.removeAttribute('readonly');
   }
 };
 
@@ -72,9 +74,7 @@ const handleNoteSave = () => {
   };
   console.log(newNote);
   saveNote(newNote).then(() => {
-    console.log(newNote);
     getAndRenderNotes();
-    console.log("after render note");
     renderActiveNote();
   });
 };
@@ -113,7 +113,6 @@ const handleNewNoteView = (e) => {
 const handleRenderSaveBtn = () => {
   if (!noteTitle.value.trim() || !noteText.value.trim()) {
     hide(saveNoteBtn);
-    console.log("hide save button");
   } else {
     show(saveNoteBtn);
   }
@@ -122,7 +121,6 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
-  console.log("jsonNotes" + jsonNotes);
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
@@ -132,7 +130,6 @@ const renderNoteList = async (notes) => {
   const createLi = (text, delBtn = true) => {
     const liEl = document.createElement('li');
     liEl.classList.add('list-group-item');
-    console.log("create html");
     const spanEl = document.createElement('span');
     spanEl.innerText = text;
     spanEl.addEventListener('click', handleNoteView);
