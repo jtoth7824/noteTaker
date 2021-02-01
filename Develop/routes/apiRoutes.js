@@ -9,7 +9,7 @@ const path = require('path');
 var hell = [];
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join("./db/", "db.json");
+const outputPath = path.join("../db/", "db.json");
 
 // ROUTING
 var chosen;
@@ -68,7 +68,7 @@ module.exports = (app) => {
         hell.push(newCharacter);
         res.json(newCharacter);
         // Write out the html page to a file
-        fs.writeFile(outputPath, JSON.stringify(hell), (err) =>
+        fs.writeFile(path.join(__dirname, '../db/db.json'), JSON.stringify(hell), (err) =>
             err ? console.error(err) : console.log('Success'));
     });
 
@@ -85,7 +85,7 @@ module.exports = (app) => {
         }
         console.log(hell);
         // Write out the html page to a file
-        fs.writeFile(outputPath, JSON.stringify(hell), (err) =>
+        fs.writeFile(path.join(__dirname, '../db/db.json'), JSON.stringify(hell), (err) =>
             err ? console.error(err) : console.log('Success'));
         res.json(hell);
     });
