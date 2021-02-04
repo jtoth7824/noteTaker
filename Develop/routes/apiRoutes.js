@@ -1,6 +1,7 @@
 // DEPENDENCIES
 const fs = require('fs');
 const path = require('path');
+const uniqid = require('uniqid');
 
 // task array
 var tasks = [];
@@ -49,8 +50,11 @@ module.exports = (app) => {
 
     // api route for POST to save a new note to db.json file
     app.post('/api/notes', (req, res) => {
-        const newTask = req.body;
-
+        const newTask = {
+            title: req.body.title,
+            text: req.body.text,
+            id: uniqid()
+        };
         // save the new task to the tasks array
         tasks.push(newTask);
         // return as JSON response the new task
@@ -62,12 +66,13 @@ module.exports = (app) => {
     // api route for POST to delete a specific note from db.json file
     app.delete('/api/notes/:id', (req, res) => {
         // capture the 'id' parameter of the note to delete
-        const deleteId = parseInt(req.params.id);
+        const deleteId = req.params.id;
 
         // loop over tasks array to find specific id
         for (let i = 0; i < tasks.length; i++) {
             // check if id to delete matches current task object id in array
             if (deleteId === tasks[i].id) {
+
                 // delete from array the found task
                 tasks.splice(i, 1);
             }

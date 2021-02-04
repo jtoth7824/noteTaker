@@ -56,12 +56,12 @@ The following is a screenshot of the Note Taker application when Delete icon is 
 * Install node.js to computer, if not already present.
     * Node.js can be installed from [here](https://nodejs.org/en/)
 * Copy all the application files in folder 'noteTaker' locally to one's machine.
-* In a terminal window where you copied the files, install 'express' using node package manager (npm) as follows:
+* In a terminal window where you copied the files, install 'express' and 'uniqid' using node package manager (npm) as follows:
     * **npm install**
 
 ## Usage
 
-This application requires Node.js to be installed.  It also requires the user to have installed 'Express' via npm.  (See [Installation](#installation) section.)  Once these items have been installed, the user can launch the application from a terminal window as follows:
+This application requires Node.js to be installed.  It also requires the user to have installed 'express' and 'uniqid' via npm.  (See [Installation](#installation) section.)  Once these items have been installed, the user can launch the application from a terminal window as follows:
 
 **node server.js**
 
@@ -77,6 +77,7 @@ Please email me for further information jtoth7824@gmail.com
 <div>Javascript</div>
 <div>npm</div>
 <div>Heroku</div>
+<div>uniqid package</div>
 
 ## Repository
 
